@@ -306,7 +306,55 @@ for (var i = 0; i < replacementList.length; i += 1) {
   }
 }
 
-var diacriticsPattern = /[\u0080-\uFFFF]/g;
+// Unicode ranges for characters that have diacritics mappings
+// Each range represents a specific Unicode block with actual character mappings
+var basicLatinRange = '\\u0043'; // Single 'C' character
+var latin1SupplementRange = '\\u0080-\\u00FF'; // Latin-1 Supplement (accented letters)
+var latinExtendedARange = '\\u0100-\\u017F'; // Latin Extended-A
+var latinExtendedBRange = '\\u0180-\\u024F'; // Latin Extended-B
+var ipaExtensionsRange = '\\u0250-\\u02AF'; // IPA Extensions (phonetic symbols)
+var greekCopticRange = '\\u0370-\\u03FF'; // Greek and Coptic
+var cyrillicRange = '\\u0400-\\u04FF'; // Cyrillic
+var cyrillicExtendedBRange = '\\u0500-\\u052F'; // Cyrillic Extended-B
+var nkoRange = '\\u07C0'; // NKo (single character)
+var cherokeeRange = '\\u13A0-\\u13FF'; // Cherokee
+var phoneticExtensionsRange = '\\u1D00-\\u1D7F'; // Phonetic Extensions
+var latinExtendedAdditionalRange = '\\u1E00-\\u1EFF'; // Latin Extended Additional
+var generalPunctuationRange = '\\u2180-\\u2189'; // General Punctuation (subset)
+var enclosedAlphanumericsRange = '\\u24B6-\\u24E9'; // Enclosed Alphanumerics (circled letters)
+var latinExtendedCRange = '\\u2C60-\\u2C7F'; // Latin Extended-C
+var latinExtendedDRange = '\\uA720-\\uA7FF'; // Latin Extended-D
+var alphabeticPresentationFormsRange = '\\uFB00-\\uFB4F'; // Alphabetic Presentation Forms
+var halfwidthFullwidthFormsRange = '\\uFF00-\\uFFEF'; // Halfwidth and Fullwidth Forms
+
+// Combine all ranges into a single character class pattern
+var diacriticsPattern = new RegExp(
+  '[' +
+    basicLatinRange +
+    latin1SupplementRange +
+    latinExtendedARange +
+    latinExtendedBRange +
+    ipaExtensionsRange +
+    greekCopticRange +
+    cyrillicRange +
+    cyrillicExtendedBRange +
+    nkoRange +
+    cherokeeRange +
+    phoneticExtensionsRange +
+    latinExtendedAdditionalRange +
+    generalPunctuationRange +
+    enclosedAlphanumericsRange +
+    latinExtendedCRange +
+    latinExtendedDRange +
+    alphabeticPresentationFormsRange +
+    halfwidthFullwidthFormsRange +
+    ']',
+  'g'
+);
+
+function replaceDiacritic(c) {
+  return diacriticsMap[c] || c;
+}
 
 function removeDiacritics(str) {
   return str.replace(diacriticsPattern, function(c) {
