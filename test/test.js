@@ -45,6 +45,17 @@ assert.strictEqual(removeDiacritics("The quick brown fox jumps over the lazy dog
 // Mixed ASCII and diacritics (common real-world scenario)
 assert.strictEqual(removeDiacritics("José lives in São Paulo"), "Jose lives in Sao Paulo");
 assert.strictEqual(removeDiacritics("François went to Zürich"), "Francois went to Zurich");
+assert.strictEqual(removeDiacritics("Zürich"), "Zurich", "German umlaut");
+
+// Unicode range optimization validation (CJK, Arabic should remain unchanged)
+assert.strictEqual(removeDiacritics("你好世界"), "你好世界", "Chinese characters should remain unchanged");
+assert.strictEqual(removeDiacritics("مرحبا"), "مرحبا", "Arabic text should remain unchanged");
+assert.strictEqual(removeDiacritics("こんにちは"), "こんにちは", "Japanese Hiragana should remain unchanged");
+assert.strictEqual(removeDiacritics("안녕하세요"), "안녕하세요", "Korean text should remain unchanged");
+
+// Mixed content with non-Latin scripts (verify selective processing)
+assert.strictEqual(removeDiacritics("café 咖啡"), "cafe 咖啡", "Latin diacritics processed, CJK preserved");
+assert.strictEqual(removeDiacritics("résumé قهوة"), "resume قهوة", "Latin diacritics processed, Arabic preserved");
 
 // Test whitespace and formatting preservation
 assert.strictEqual(removeDiacritics("  café  "), "  cafe  ", "Leading/trailing spaces preserved");
