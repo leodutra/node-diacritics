@@ -14,7 +14,10 @@ const logSeparator = (newLine = false) => {
 };
 
 const WARMUP_ITERATIONS = 1000;
-const MILLISECONDS_CONVERSION = 1_000_000;
+
+function nanoToMilli(nano) {
+  return Number(nano) / 1_000_000;
+}
 
 function warmupFunction(fn, iterations = WARMUP_ITERATIONS) {
   for (let i = 0; i < iterations; i++) {
@@ -28,7 +31,7 @@ function measurePerformance(fn, iterations) {
     fn();
   }
   const end = process.hrtime.bigint();
-  return Number(end - start) / MILLISECONDS_CONVERSION;
+  return nanoToMilli(end - start);
 }
 
 function calculateMetrics(totalTime, iterations) {
