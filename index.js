@@ -306,8 +306,10 @@ for (var i = 0; i < replacementList.length; i += 1) {
   }
 }
 
+var diacriticsPattern = /[\u0080-\uFFFF]/g;
+
 function removeDiacritics(str) {
-  return str.replace(/[^\u0000-\u007e]/g, function(c) {
+  return str.replace(diacriticsPattern, function(c) {
     return diacriticsMap[c] || c;
   });
 }
