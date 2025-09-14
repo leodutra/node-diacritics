@@ -4,7 +4,8 @@
   "description": "remove diacritics from strings",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "benchmark": "node benchmark.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,10 @@
   },
   "directories": {
     "test": "test"
-  }
+  },
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ]
 }
